@@ -1,2 +1,0 @@
-# imjongheon
-for personal blog
