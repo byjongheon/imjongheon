@@ -1,41 +1,57 @@
 ---
-import '../styles/global.css';
-import { SITE } from '../config/site';
+import Head from '@/components/Head.astro';
+import Header from '@/components/Header.astro';
+import Footer from "@/components/Footer.astro";
+import ScrollToTop from "@/components/ScrollToTop.astro";
+import HeadingAnchors from '@/scripts/HeadingAnchors.astro';
 
 interface Props {
-  title?: string;
-  description?: string;
+  lang?: string;
+  schema?: Record<string, unknown>;
 }
 
-const {
-  title = SITE.title,
-  description = SITE.description,
-} = Astro.props;
-
-const pageTitle = title === SITE.title ? title : `${title} | ${SITE.title}`;
+const { lang = "en", schema } = Astro.props;
 ---
+<!DOCTYPE html>
+<html lang={lang}> 
+  <Head schema={schema}>
+    <slot name="seo" slot="seo" />
+    <slot name="head" slot="head" />
+  </Head>
+  <body class="font-content bg-background text-foreground selection:bg-selection">
 
-<!doctype html>
-<html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width"
-    />
-    <meta
-      name="description"
-      content={description}
-    />
-    <meta
-      name="generator"
-      content={Astro.generator}
-    />
+    <Header />
+    <!-- Main content -->
+    <main class="app-layout flex flex-col space-y-8 sm:space-y-10">
+      
 
-    <title>{pageTitle}</title>
-  </head>
+      {/* Page/Post Header Section */}
+      <slot name="header" />
 
-  <body>
-    <slot />
+      {/* Page/Post Meta Section */}
+      <slot name="meta" />
+
+      {/* Page/Post Content */}
+      <slot />
+
+      {/* Post Navigation */}
+      <slot name="navigation" />
+
+      {/* Additional Content */}
+      <slot name="after" />
+
+    </main>
+
+    <slot name="footer" />
+    <!-- <Footer /> -->
+    <ScrollToTop />
+    
+    <!-- Additional page-specific scripts -->
+    <slot name="scripts" />
+    <HeadingAnchors />
+    <script>
+      import "@/scripts/theme";
+    </script>
+    <pagefind-modal></pagefind-modal>
   </body>
 </html>
