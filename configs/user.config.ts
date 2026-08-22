@@ -1,60 +1,48 @@
 import type { UserConfig } from "../src/site.config";
 
 const userConfig: UserConfig = {
-  title: "Lipi",
-  description:
-    "A minimal editorial theme for Astro built for blogs, journals, travel writing, and long-form publishing.",
+  title: "임종헌",
+  description: "임종헌의 개인 블로그",
 
-  url: "https://astro-lipi.pages.dev",
-  author: "John Doe",
+  url: "https://imjongheon.com",
+  author: "jongheon",
 
   logo: "/logo.svg",
   avatar: "/avatar.png",
 
   navigation: [
-    { title: "Writing", url: "/posts" },
-    { title: "Archive", url: "/archive" },
+    { title: "Home", url: "/" },
+    { title: "Blog", url: "/posts" },
+    { title: "Memo", url: "/memo" },
     { title: "About", url: "/about" },
   ],
 
   footerLinks: [
     { title: "RSS", url: "/rss.xml" },
     { title: "Archive", url: "/archive" },
-    { title: "Source", url: "https://github.com/thelocalhoststudio/lipi" },
-    
+    { title: "GitHub", url: "https://github.com/jonghoney" },
   ],
 
   social: [
     {
       title: "GitHub",
-      url: "https://github.com/thelocalhoststudio/lipi",
+      url: "https://github.com/jonghoney",
       icon: "github",
     },
-    {
-      title: "X",
-      url: "https://x.com/",
-      icon: "x",
-    },
-    {
-      title: "LinkedIn",
-      url: "https://linkedin.com/",
-      icon: "linkedin",
-    },
-    
   ],
 
-  footerCredits: "Designed for reading. Built with Astro & Lipi",
+  footerCredits: "Built with Astro & Lipi",
 
   postsPerPage: 8,
   recentPosts: 6,
   relatedPosts: 4,
 
   showThemeToggle: true,
-  showReadingTime: true,
+  showReadingTime: false,
 
   heroVariant: "studio",
 
-  annotation: "Writing between filter coffees and terminal windows.",
+  annotation: "블로그 주인",
 };
 
 export default userConfig;
