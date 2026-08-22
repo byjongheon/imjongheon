@@ -2,6 +2,7 @@
 import { type Post } from "@/utils/content";
 import { calculateReadingTime } from "@/utils/text";
 import siteConfig from "@/site.config";
+import { formatDate } from "@/utils/date";
 
 type Props = {
   post: Post;
@@ -19,10 +20,7 @@ const {
 
 const { category, published, updated, lang } = post.data;
 
-const displayDate = new Intl.DateTimeFormat("en", {
-  month: "short",
-  year: "numeric",
-}).format(updated ?? published);
+const displayDate = formatDate(updated ?? published);
 
 const readingTime =
   siteConfig.showReadingTime && showReadingTime

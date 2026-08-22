@@ -7,7 +7,8 @@ import siteConfig from "@/site.config";
 import notoSansRegular from "@/assets/fonts/NotoSans-Regular.ttf";
 import notoSerifRegular from "@/assets/fonts/NotoSerif-Regular.ttf";
 import notoSerifBold from "@/assets/fonts/NotoSerif-Bold.ttf";
-
+import { formatDate } from "@/utils/date";
+  
 export type OgImageOptions = {
   title: string;
   description?: string;
@@ -19,14 +20,6 @@ export type OgImageOptions = {
 const WIDTH = 1200;
 const HEIGHT = 630;
 
-function formatDate(date?: Date) {
-  if (!date) return "";
-
-  return new Intl.DateTimeFormat("en", {
-    month: "short",
-    year: "numeric",
-  }).format(date);
-}
 
 export async function generateOgImage({
   title,
@@ -79,10 +72,8 @@ export async function generateOgImage({
 
           ${
             published
-              ? `<span>${formatDate(
-                  published
-                )}</span>`
-              : ""
+  ? `<span>${formatDate(published)}</span>`
+  : ""
           }
         </div>
 
