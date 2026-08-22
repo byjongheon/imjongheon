@@ -28,11 +28,7 @@ function getPreferredTheme(): Theme {
     return stored;
   }
 
-  return window.matchMedia(
-    "(prefers-color-scheme: dark)"
-  ).matches
-    ? DARK
-    : LIGHT;
+    return LIGHT;
 }
 
 function applyTheme(theme: Theme) {
@@ -110,24 +106,3 @@ document.addEventListener(
   initTheme
 );
 
-window
-  .matchMedia(
-    "(prefers-color-scheme: dark)"
-  )
-  .addEventListener(
-    "change",
-    ({ matches }) => {
-      // Respect explicit user choice
-      if (
-        localStorage.getItem(THEME_KEY)
-      ) {
-        return;
-      }
-
-      themeValue = matches
-        ? DARK
-        : LIGHT;
-
-      applyTheme(themeValue);
-    }
-  );
