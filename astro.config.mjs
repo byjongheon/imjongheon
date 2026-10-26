@@ -3,6 +3,7 @@ import { defineConfig, fontProviders, svgoOptimizer } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
+import sanity from '@sanity/astro';
 import siteConfig from './src/site.config';
 import rehypeUnwrapImages from 'rehype-unwrap-images';
 import rehypeSlug from "rehype-slug";
@@ -113,9 +114,16 @@ export default defineConfig({
   },
 
   integrations: [
-    mdx(), 
-    sitemap()
-  ],
+  mdx(),
+  sitemap(),
+  sanity({
+    projectId: 'u3uzfiys',
+    dataset: 'production',
+    apiVersion: '2026-10-26',
+    useCdn: false,
+    injectTypes: true,
+  }),
+],
 
   build: {
     // Inline small stylesheets into the HTML (~4KB threshold), keep larger
