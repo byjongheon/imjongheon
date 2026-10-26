@@ -1,0 +1,11 @@
+---
+import PortableText from "@/components/sanity/PortableText.astro";
+
+type Props = {
+  value: unknown;
+};
+
+const { value } = Astro.props;
+---
+
+<PortableText value={value} />

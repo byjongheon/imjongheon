@@ -15,14 +15,13 @@ export async function GET(context: APIContext) {
     description: siteConfig.description,
     site,
     items: posts.map((post) => ({
-      title: post.data.title,
-      description: post.data.description,
+      title: post.title,
+      description: post.description,
       pubDate:
-        post.data.updated ??
-        post.data.published,
+        post.updated ??
+        post.published,
       link: getPostUrl(
-        post.id,
-        post.filePath
+        post.slug
       ),
     })),
   });

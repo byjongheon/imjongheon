@@ -33,8 +33,7 @@ export interface UserConfig {
 
   showLogo?: boolean;
   showThemeToggle?: boolean;
-  showReadingTime?: boolean;
-
+  
   heroVariant?: "default" | "studio";
 
   annotation?: string;
@@ -63,8 +62,7 @@ const siteConfig = {
 
   showLogo: userConfig.showLogo ?? false,
   showThemeToggle: userConfig.showThemeToggle ?? true,
-  showReadingTime: userConfig.showReadingTime ?? true,
-
+  
   heroVariant: userConfig.heroVariant ?? "default",
 
   annotation: userConfig.annotation,

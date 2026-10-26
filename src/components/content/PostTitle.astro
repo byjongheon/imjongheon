@@ -14,8 +14,8 @@ const {
   class: className = "",
 } = Astro.props;
 
-const url = getPostUrl(post.id, post.filePath);
-const titleSlug = slugify(post.data.title.replaceAll(".", "-"));
+const url = getPostUrl(post.slug);
+const titleSlug = slugify(post.title.replaceAll(".", "-"));
 const titleClass = [ "text-balance", className,]
   .filter(Boolean)
   .join(" ");
@@ -26,6 +26,6 @@ const titleClass = [ "text-balance", className,]
   class="no-underline hover:text-primary"
 >
   <Heading class={titleClass} transition:name={titleSlug}>
-    {post.data.title}
+    {post.title}
   </Heading>
 </a>

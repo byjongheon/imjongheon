@@ -6,23 +6,16 @@ export const allPostsQuery = defineQuery(`
     defined(slug.current)
   ]
   | order(publishedAt desc) {
-    _id,
-    title,
+    "_id": _id,
     "slug": slug.current,
+    title,
     description,
-    language,
-    publishedAt,
-    category->{
-      _id,
-      title,
-      "slug": slug.current
-    },
-    tags[]->{
-      _id,
-      title,
-      "slug": slug.current
-    },
-    mainImage,
+    "lang": language,
+    "published": publishedAt,
+    "updated": _updatedAt,
+    "category": category->title,
+    "tags": coalesce(tags[]->title, []),
+    "cover": mainImage,
     body
   }
 `)
@@ -32,23 +25,16 @@ export const postBySlugQuery = defineQuery(`
     _type == "post" &&
     slug.current == $slug
   ][0] {
-    _id,
-    title,
+    "_id": _id,
     "slug": slug.current,
+    title,
     description,
-    language,
-    publishedAt,
-    category->{
-      _id,
-      title,
-      "slug": slug.current
-    },
-    tags[]->{
-      _id,
-      title,
-      "slug": slug.current
-    },
-    mainImage,
+    "lang": language,
+    "published": publishedAt,
+    "updated": _updatedAt,
+    "category": category->title,
+    "tags": coalesce(tags[]->title, []),
+    "cover": mainImage,
     body
   }
 `)

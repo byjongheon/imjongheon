@@ -1,32 +1,24 @@
 ---
 import { type Post } from "@/utils/content";
-import { calculateReadingTime } from "@/utils/text";
-import siteConfig from "@/site.config";
 import { formatDate } from "@/utils/date";
 
 type Props = {
   post: Post;
-  showReadingTime?: boolean;
   showLanguage?: boolean;
   accentCategory?: boolean;
 };
 
 const {
   post,
-  showReadingTime = false,
   showLanguage = false,
   accentCategory = false,
 } = Astro.props;
 
-const { category, published, updated, lang } = post.data;
+const { category, published, updated, lang } = post;
 
 const displayDate = formatDate(updated ?? published);
-
-const readingTime =
-  siteConfig.showReadingTime && showReadingTime
-    ? calculateReadingTime(post.body ?? "").text
-    : null;
 ---
+
 {
   category && (
     <span
@@ -46,14 +38,6 @@ const readingTime =
 >
   {displayDate}
 </time>
-
-{
-  readingTime && (
-    <span>
-      {readingTime}
-    </span>
-  )
-}
 
 {
   showLanguage && lang && (

@@ -1,9 +1,13 @@
 ---
-import { render } from "astro:content";
 import PostLayout from "@/layouts/PostLayout.astro";
-import { type Post, getAllPosts, getPostSlug, getPostUrl, getAdjacentPosts } from "@/utils/content";
+import PortableText from "@/components/sanity/PortableText.astro";
+import {
+  type Post,
+  getAllPosts,
+  getAdjacentPosts,
+} from "@/utils/content";
 
-export const getStaticPaths = async () => {
+export async function getStaticPaths() {
   const posts = await getAllPosts();
 
   return posts.map((post) => {
@@ -12,12 +16,8 @@ export const getStaticPaths = async () => {
 
     return {
       params: {
-        slug: getPostSlug(
-          post.id,
-          post.filePath
-        ),
+        slug: post.slug,
       },
-
       props: {
         post,
         prevPost,
@@ -25,7 +25,7 @@ export const getStaticPaths = async () => {
       },
     };
   });
-};
+}
 
 type Props = {
   post: Post;
@@ -38,13 +38,12 @@ const {
   prevPost,
   nextPost,
 } = Astro.props;
-
-const { Content } = await render(post);
 ---
+
 <PostLayout
   post={post}
   prevPost={prevPost}
   nextPost={nextPost}
 >
-  <Content />
+  <PortableText value={post.body} />
 </PostLayout>

@@ -1,10 +1,23 @@
-import { getCollection, type CollectionEntry, } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import { getAssetPath } from "./url";
 import { slugify } from "./text";
-import siteConfig from "@/site.config";
-import {POSTS_PATH, PAGES_PATH} from "@/content.config";
+import { PAGES_PATH } from "@/content.config";
+import { getAllPosts as getSanityPosts } from "@/lib/sanity/posts";
 
-export type Post = CollectionEntry<"posts">;
+export type Post = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  lang: "ko" | "en";
+  published: Date;
+  updated?: Date;
+  category: string;
+  tags: string[];
+  cover?: unknown;
+  body: unknown;
+};
+
 export type Page = CollectionEntry<"pages">;
 export type TagArchive = {
   tag: string;
@@ -15,21 +28,6 @@ export type TagArchive = {
 
 let postsCache: Post[] | null = null;
 let pagesCache: Page[] | null = null;
-
-function isVisiblePost(post: Post): boolean {
-  // Show everything in development
-  if (import.meta.env.DEV) {
-    return true;
-  }
-
-  const isDraft = post.data.draft;
-
-  const isFuturePost =
-    new Date(post.data.published).getTime() >
-    Date.now();
-
-  return !isDraft && !isFuturePost;
-}
 
 function isVisiblePage(page: Page): boolean {
   // Show drafts in development
@@ -46,15 +44,10 @@ function isPublicPage(page: Page): boolean {
 
 function sortPosts(posts: Post[]): Post[] {
   return posts.sort((a, b) => {
-    const aDate = new Date(
-      a.data.updated ?? a.data.published
-    ).getTime();
+    const aDate = a.updated ?? a.published;
+    const bDate = b.updated ?? b.published;
 
-    const bDate = new Date(
-      b.data.updated ?? b.data.published
-    ).getTime();
-
-    return bDate - aDate;
+    return bDate.getTime() - aDate.getTime();
   });
 }
 
@@ -63,10 +56,23 @@ export async function getAllPosts(): Promise<Post[]> {
     return postsCache;
   }
 
-  const posts = await getCollection(
-    "posts",
-    isVisiblePost
-  );
+  const sanityPosts = await getSanityPosts();
+
+  const posts: Post[] = sanityPosts.map((post) => ({
+    id: post._id,
+    slug: post.slug,
+    title: post.title,
+    description: post.description,
+    lang: post.lang as "ko" | "en",
+    published: new Date(post.published),
+    updated: post.updated
+      ? new Date(post.updated)
+      : undefined,
+    category: post.category,
+    tags: post.tags,
+    cover: post.cover ?? undefined,
+    body: post.body,
+  }));
 
   postsCache = sortPosts(posts);
 
@@ -103,7 +109,7 @@ export async function getAllTagArchives(): Promise<TagArchive[]> {
   >();
 
   for (const post of posts) {
-    for (const tag of post.data.tags ?? []) {
+  for (const tag of post.tags) {
       const slug = slugify(tag);
 
       if (!slug) {
@@ -150,21 +156,6 @@ export async function getAllTagArchives(): Promise<TagArchive[]> {
  * posts/travel/Japan/Tokyo.md
  * -> ["travel", "japan"]
  */
-export function getPostPathSegments(
-  filePath?: string
-): string[] {
-  if (!filePath) {
-    return [];
-  }
-
-  return filePath
-    .replace(POSTS_PATH, "")
-    .split("/")
-    .filter(Boolean)
-    .filter((segment) => !segment.startsWith("_"))
-    .slice(0, -1)
-    .map(slugify);
-}
 
 /**
  * Get the final slug segment from Astro content entry ID.
@@ -186,19 +177,6 @@ export function getPostSlugSegment(id: string): string {
  * travel/japan/tokyo.md
  * -> "travel/japan/tokyo"
  */
-export function getPostSlugPath(
-  id: string,
-  filePath?: string
-): string {
-  const segments = getPostPathSegments(filePath);
-
-  const slug =
-    slugify(getPostSlugSegment(id));
-
-  return segments.length > 0
-    ? [...segments, slug].join("/")
-    : slug;
-}
 
 /**
  * Route param slug used in getStaticPaths().
@@ -206,11 +184,8 @@ export function getPostSlugPath(
  * Example:
  * "/travel/japan/tokyo"
  */
-export function getPostSlug(
-  id: string,
-  filePath?: string
-): string {
-  return `/${getPostSlugPath(id, filePath)}`;
+export function getPostSlug(slug: string): string {
+  return `/${slug}`;
 }
 
 export function getPagePathSegments(
@@ -254,13 +229,8 @@ export function getPageSlug(
  * Example:
  * "/posts/travel/japan/tokyo"
  */
-export function getPostUrl(
-  id: string,
-  filePath?: string
-): string {
-  return getAssetPath(
-    `posts/${getPostSlugPath(id, filePath)}`
-  );
+export function getPostUrl(slug: string): string {
+  return getAssetPath(`posts/${slug}`);
 }
 
 /**
@@ -295,54 +265,37 @@ function scorePostSimilarity(
 ): number {
   let score = 0;
 
-  const currentTags =
-    currentPost.data.tags ?? [];
-
-  const candidateTags =
-    candidatePost.data.tags ?? [];
+  const currentTags = currentPost.tags;
+  const candidateTags = candidatePost.tags;
 
   // Shared tags
-  const sharedTags = currentTags.filter(
-    (tag) =>
-      candidateTags.includes(tag)
+  const sharedTags = currentTags.filter((tag) =>
+    candidateTags.includes(tag)
   );
 
   score += sharedTags.length * 10;
 
-  // Same top-level directory
-  const currentPath =
-    currentPost.filePath
-      ?.split("/")
-      .slice(0, -1)
-      .join("/") ?? "";
-
-  const candidatePath =
-    candidatePost.filePath
-      ?.split("/")
-      .slice(0, -1)
-      .join("/") ?? "";
-
+  // Same category
   if (
-    currentPath &&
-    candidatePath &&
-    currentPath === candidatePath
+    currentPost.category &&
+    candidatePost.category &&
+    currentPost.category === candidatePost.category
   ) {
     score += 5;
   }
 
   // Slight recency boost
   const currentDate =
-    currentPost.data.updated ??
-    currentPost.data.published;
+    currentPost.updated ?? currentPost.published;
 
   const candidateDate =
-    candidatePost.data.updated ??
-    candidatePost.data.published;
+    candidatePost.updated ?? candidatePost.published;
 
-  const diffInDays = Math.abs(
-    currentDate.getTime() -
-      candidateDate.getTime()
-  ) /
+  const diffInDays =
+    Math.abs(
+      currentDate.getTime() -
+        candidateDate.getTime()
+    ) /
     (1000 * 60 * 60 * 24);
 
   if (diffInDays < 30) {
@@ -357,12 +310,8 @@ export function getRelatedPosts(
   posts: Post[],
   limit: number
 ): Post[] {
-
   return posts
-    .filter(
-      (post) =>
-        post.id !== currentPost.id
-    )
+    .filter((post) => post.id !== currentPost.id)
     .map((post) => ({
       post,
       score: scorePostSimilarity(
@@ -381,15 +330,24 @@ export function getRelatedPosts(
 export function getPostsGroupedByYear(
   entries: Post[]
 ): [string, Post[]][] {
-  const grouped = entries.reduce<Record<string, Post[]>>((acc, entry) => {
-    const year = entry.data.published.getFullYear().toString();
-    (acc[year] ??= []).push(entry);
-    return acc;
-  }, {});
+  const grouped = entries.reduce<Record<string, Post[]>>(
+    (acc, entry) => {
+      const year = entry.published
+        .getFullYear()
+        .toString();
+
+      (acc[year] ??= []).push(entry);
+
+      return acc;
+    },
+    {}
+  );
 
   for (const year in grouped) {
     grouped[year].sort(
-      (a, b) => b.data.published.valueOf() - a.data.published.valueOf()
+      (a, b) =>
+        b.published.valueOf() -
+        a.published.valueOf()
     );
   }
 

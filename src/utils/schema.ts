@@ -17,17 +17,16 @@ export function generatePostSchema(
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    headline: post.data.title,
-    description: post.data.description,
-    datePublished: post.data.published,
-    dateModified:
-      post.data.updated ??
-      post.data.published,
 
-    url: getPostUrl(
-      post.id,
-      post.filePath
-    ),
+    headline: post.title,
+    description: post.description,
+
+    datePublished: post.published,
+    dateModified:
+      post.updated ??
+      post.published,
+
+    url: getPostUrl(post.slug),
 
     author: {
       "@type": "Person",
