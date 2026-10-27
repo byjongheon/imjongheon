@@ -1,4 +1,5 @@
 ---
+import { urlForImage } from "@/lib/sanity/image";
 import siteConfig from "@/site.config";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { type Post, getPostSlug, getAllPosts, getRelatedPosts } from "@/utils/content";
@@ -43,6 +44,13 @@ function formatMonthYear(date: Date) {
     .toUpperCase();
 }
 const { title, description, cover, published, tags } = post;
+
+const coverImageUrl = cover
+  ? urlForImage(cover)
+      .width(1600)
+      .auto("format")
+      .url()
+  : null;
 
 const allPosts    = await getAllPosts();
 const relatedPosts = getRelatedPosts(post, allPosts, siteConfig.relatedPosts);
@@ -93,6 +101,15 @@ const structuredData = generatePostSchema(post);
     <!-- Cover -->
     
     <!-- Post Content -->
+{coverImageUrl && (
+  <img
+    src={coverImageUrl}
+    alt={cover?.alt ?? title}
+    class="w-full rounded-lg object-cover"
+    loading="eager"
+  />
+)}
+
     <article data-pagefind-body class="post-content flex flex-col space-y-2">
       <meta data-pagefind-meta="title[content]" content={title} />
       <meta data-pagefind-sort="date[content]" content={published.toISOString()} />

@@ -3,11 +3,7 @@ import type {
 } from "astro";
 
 import {
-  getCollection,
-} from "astro:content";
-
-import {
-  getPostSlug,
+  getAllPosts,
 } from "@/utils/content";
 
 import {
@@ -16,14 +12,11 @@ import {
 
 export async function getStaticPaths() {
   const posts =
-    await getCollection("posts");
+    await getAllPosts();
 
   return posts.map((post) => ({
     params: {
-      slug: getPostSlug(
-        post.id,
-        post.filePath
-      ),
+      slug: post.slug,
     },
 
     props: {
@@ -38,17 +31,17 @@ export const GET: APIRoute =
 
     const png =
       await generateOgImage({
-        title: post.data.title,
+        title: post.title,
 
         description:
-          post.data.description,
+          post.description,
 
         category:
-          post.data.category,
+          post.category,
 
         published:
-          post.data.updated ??
-          post.data.published,
+          post.updated ??
+          post.published,
       });
 
     return new Response(png, {

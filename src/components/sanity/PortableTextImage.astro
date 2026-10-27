@@ -1,0 +1,24 @@
+---
+import { urlForImage } from "@/lib/sanity/image";
+
+type Props = {
+  node: {
+    asset: unknown;
+    alt?: string;
+  };
+};
+
+const { node } = Astro.props;
+
+const imageUrl = urlForImage(node.asset)
+  .width(1200)
+  .auto("format")
+  .url();
+---
+
+<img
+  src={imageUrl}
+  alt={node.alt ?? ""}
+  loading="lazy"
+  class="my-6 h-auto w-full rounded-lg"
+/>

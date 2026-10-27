@@ -15,7 +15,10 @@ export const allPostsQuery = defineQuery(`
     "updated": _updatedAt,
     "category": category->title,
     "tags": coalesce(tags[]->title, []),
-    "cover": mainImage,
+    "cover": mainImage{
+      ...,
+      alt
+    },
     body
   }
 `)
@@ -34,7 +37,10 @@ export const postBySlugQuery = defineQuery(`
     "updated": _updatedAt,
     "category": category->title,
     "tags": coalesce(tags[]->title, []),
-    "cover": mainImage,
+    "cover": mainImage{
+      ...,
+      alt
+    },
     body
   }
 `)

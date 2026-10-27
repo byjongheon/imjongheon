@@ -23,6 +23,7 @@
     "@portabletext/astro": "^0.2.0",
     "@resvg/resvg-js": "^2.6.2",
     "@sanity/astro": "^3.6.0",
+    "@sanity/image-url": "^2.1.1",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.4.6",
