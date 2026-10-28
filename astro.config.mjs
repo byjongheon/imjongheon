@@ -46,26 +46,26 @@ export default defineConfig({
 
   fonts: [
     {
-      name: "Manrope",
+      name: "Pretendard",
       cssVariable: "--font-lipi-sans",
       provider: fontProviders.fontsource(),
       weights: [300, 400, 500, 600, 700],
       fallbacks: ["sans-serif"],
-      formats: ["woff", "ttf"],
+      formats: ["woff2", "woff"],
     },
     {
-      name: "Literata",
+      name: "Pretendard",
       cssVariable: "--font-lipi-serif",
       provider: fontProviders.fontsource(),
       weights: [300, 400, 500, 600, 700],
-      fallbacks: ["serif"],
-      formats: ["woff", "ttf"],
+      fallbacks: ["sans-serif"],
+      formats: ["woff2", "woff"],
     },
     {
       name: "Fira Code",
       cssVariable: "--font-lipi-mono",
       provider: fontProviders.fontsource(),
-      weights: [ 400, 500, 600, 700],
+      weights: [400, 500, 600, 700],
       fallbacks: ["monospace"],
       formats: ["woff", "ttf"],
     },
@@ -73,7 +73,7 @@ export default defineConfig({
       name: "Caveat",
       cssVariable: "--font-lipi-hand",
       provider: fontProviders.fontsource(),
-      weights: [ 400, 500, 600, 700],
+      weights: [400, 500, 600, 700],
       fallbacks: ["serif"],
       formats: ["woff", "ttf"],
     }
