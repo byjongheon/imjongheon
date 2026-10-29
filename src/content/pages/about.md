@@ -1,19 +1,13 @@
 ---
 title: About
-description: Lipi is a typography-first Astro template for long-form writing, made by The Localhost Studio.
-updated: 2026-05-26
+description: 이 공간의 주인은 누구인가
+updated: 2026-10-29
 ---
 
-Lipi is a template for Astro, built for writers who care about how their words look on the page. It is not a general-purpose blog theme, and it is not trying to be. It is a publishing environment for essays, travel notes, developer journals, and personal archives: the kind of writing that benefits from a considered layout and a quiet interface.
+임종헌 ﹒ Jongheon Im
 
-Lipi's visual design draws inspiration from the [Kami](https://kami.tw93.fun) design language: warm neutrals, a constrained measure, generous spacing, and an interface that stays out of the way. The type is set in Literata, a serif face designed for reading at length. The layout holds under Cmd+P. The output is static HTML with minimal JavaScript.
+[법무법인 미션](https://lawmission.net)에서 글을 쓰고, 서비스를 기획하고, 사람들을 모으고 있습니다.
 
----
+그 전에는 글을 고쳤고, 그보다 더 전에는 서비스를 기획하고, 더 전에는 글을 썼습니다.
 
-## The Localhost Studio
-
-The Localhost Studio is a small independent studio building thoughtful tools for writers and publishers. We work at the intersection of typography, publishing, and the web, with a preference for things that are made carefully and maintained honestly.
-
-Lipi began as a personal template, became a design exploration, and eventually became something we thought was worth sharing. The inspiration from Kami runs through everything we make: the same warmth, the same restraint, the same conviction that the content should come first.
-
-If you are building something with Lipi, or if you have a question about the design, you can find us at [The Localhost Studio](https://thelocalhoststudio.in) or through the links in the footer.
+대전 하나 시티즌과 NELL의 열렬한 팬이고, 눈마새와 신부이야기를 달달 외울 만큼 좋아합니다.
