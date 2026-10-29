@@ -2,7 +2,6 @@
 import { getCollection, render } from "astro:content";
 import PageLayout from "@/layouts/PageLayout.astro";
 import {
-  getAllPages,
   getPageSlug,
   type Page,
 } from "@/utils/content";
@@ -16,8 +15,6 @@ export const getStaticPaths = async () => {
       !data.draft &&
       !RESERVED.has(id)
   );
-
-  const pages = await getAllPages();
 
   return allPages.map((page) => ({
     params: {
