@@ -5,11 +5,11 @@ import SEO from "@/components/SEO.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
 import Footer from "@/components/Footer.astro";
 import siteConfig from "@/site.config";
-import { type Page, type Post } from "@/utils/content";
+import { type Page } from "@/utils/content";
 import { formatDate } from "@/utils/date";
 
 interface Props {
-  entry?: Page | Post;
+  entry?: Page;
   title?: string;
   description?: string;
   showBreadcrumb?: boolean;
@@ -35,8 +35,7 @@ const footerAnnotation = entry?.data.annotation ?? siteConfig.annotation;
 
 const {
   title: entryTitle,
-  description: entryDescription,
-  published,
+  description: entryDescription,  
   updated,
 } = entry?.data ?? {};
 
@@ -48,7 +47,7 @@ const description =
   propDescription ??
   entryDescription;
 
-const last = updated ? updated : published;
+const last = updated;
 
 const formattedDate = last ? formatDate(last) : undefined;
 
@@ -60,7 +59,7 @@ const ogImage = entry
 <BaseLayout schema={schema}>
   <SEO
     slot="seo"
-    title={title}
+    title={title ?? siteConfig.title}
     description={description ?? ""}
     ogImage={ogImage}
     {noindex}

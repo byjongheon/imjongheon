@@ -34,15 +34,25 @@ export default defineConfig({
   },
 
   security: {
-    contentSecurityPolicy: {
-      directives: {
-        "script-src": ["'self'", "https://static.cloudflareinsights.com"],
-        "style-src":  ["'self'", "'unsafe-inline'"],
-        "connect-src":["'self'", "https://cloudflareinsights.com"],
-        "worker-src": ["'self'", "blob:"],
-      },
+  csp: {
+    scriptDirective: {
+      resources: [
+        "'self'",
+        "https://static.cloudflareinsights.com",
+      ],
     },
+    styleDirective: {
+      resources: [
+        "'self'",
+        "'unsafe-inline'",
+      ],
+    },
+    directives: [
+      "connect-src 'self' https://cloudflareinsights.com",
+      "worker-src 'self' blob:",
+    ],
   },
+},
 
   fonts: [
     {

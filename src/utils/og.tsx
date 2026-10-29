@@ -4,9 +4,7 @@ import satori from "satori";
 import { html } from "satori-html";
 import { Resvg } from "@resvg/resvg-js";
 import siteConfig from "@/site.config";
-import notoSansRegular from "@/assets/fonts/NotoSans-Regular.ttf";
-import notoSerifRegular from "@/assets/fonts/NotoSerif-Regular.ttf";
-import notoSerifBold from "@/assets/fonts/NotoSerif-Bold.ttf";
+import { readFile } from "node:fs/promises";
 import { formatDate } from "@/utils/date";
   
 export type OgImageOptions = {
@@ -28,6 +26,12 @@ export async function generateOgImage({
   published,
   site = siteConfig.url,
   }: OgImageOptions) {
+  const [notoSansRegular, notoSerifRegular, notoSerifBold] =
+  await Promise.all([
+    readFile("src/assets/fonts/NotoSans-Regular.ttf"),
+    readFile("src/assets/fonts/NotoSerif-Regular.ttf"),
+    readFile("src/assets/fonts/NotoSerif-Bold.ttf"),
+  ]);
   const markup = html(`
     <div
       style="
@@ -121,7 +125,9 @@ export async function generateOgImage({
     </div>
   `);
 
-  const svg = await satori(markup, {
+  const svg = await satori(
+  markup as unknown as Parameters<typeof satori>[0],
+  {
     width: WIDTH,
     height: HEIGHT,
     fonts: [

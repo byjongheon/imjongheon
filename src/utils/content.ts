@@ -15,7 +15,7 @@ export type Post = {
   category: string;
   tags: string[];
   cover?: unknown;
-  body: unknown;
+  body: any[];
 };
 
 export type Page = CollectionEntry<"pages">;
@@ -71,7 +71,7 @@ export async function getAllPosts(): Promise<Post[]> {
     category: post.category,
     tags: post.tags,
     cover: post.cover ?? undefined,
-    body: post.body,
+    body: Array.isArray(post.body) ? post.body : [],
   }));
 
   postsCache = sortPosts(posts);

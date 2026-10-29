@@ -38,7 +38,6 @@ const userConfig: UserConfig = {
   relatedPosts: 4,
 
   showThemeToggle: true,
-  showReadingTime: false,
 
   heroVariant: "studio",
 

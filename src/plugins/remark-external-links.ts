@@ -16,7 +16,7 @@ export function remarkExternalLinks() {
       node.data.hProperties = {
         ...(node.data.hProperties || {}),
         target: '_blank',
-        rel: 'noopener noreferrer',
+        rel: ['noopener', 'noreferrer'],
       };
     });
   };

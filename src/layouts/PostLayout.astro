@@ -104,7 +104,7 @@ const structuredData = generatePostSchema(post);
 {coverImageUrl && (
   <img
     src={coverImageUrl}
-    alt={cover?.alt ?? title}
+    alt={title}
     class="w-full rounded-lg object-cover"
     loading="eager"
   />
@@ -151,11 +151,11 @@ const structuredData = generatePostSchema(post);
   </section>
   
   <Fragment slot="navigation">
-    <PostNavigation
-      prevPost={prevPost}
-      nextPost={nextPost}
-    />
-  </Fragment>
+  <PostNavigation
+    prevPost={prevPost ?? undefined}
+    nextPost={nextPost ?? undefined}
+  />
+</Fragment>
   <Fragment slot="after">
     {relatedPosts.length > 0 && (
       // <PostFeed

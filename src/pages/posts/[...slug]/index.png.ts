@@ -44,10 +44,9 @@ export const GET: APIRoute =
           post.published,
       });
 
-    return new Response(png, {
-      headers: {
-        "Content-Type":
-          "image/png",
-      },
-    });
+    return new Response(Uint8Array.from(png).buffer, {
+  headers: {
+    "Content-Type": "image/png",
+  },
+});
   };
