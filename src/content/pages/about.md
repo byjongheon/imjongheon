@@ -2,6 +2,7 @@
 title: About
 description: 이 공간의 주인은 누구인가
 updated: 2026-10-29
+lang: ko
 ---
 
 임종헌 ﹒ Jongheon Im
