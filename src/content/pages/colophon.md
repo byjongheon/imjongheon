@@ -1,51 +1,49 @@
 ---
 title: Colophon
-description: The typefaces, tools, and decisions behind Lipi.
-updated: 2026-05-26
+description: 이 블로그를 어떻게, 무엇으로, 어떤 생각으로 만들었는지 정리했습니다.
+updated: 2026-10-29
+lang: ko
 ---
 
-A colophon records how a book was made: who set the type, which press printed it, when and where. This page serves that function for Lipi.
+개인적인 기록과 글을 장기간 보관하고 공개하기 위해 만든 공간입니다.
 
-## Typefaces
+단순한 구조와 특정 플랫폼에 종속되지 않고 오래 운영할 수 있도록 노력했습니다.
 
-The body typeface is **Literata**, designed by Veronika Burian and José Scaglione at TypeTogether and expanded by Google Fonts. It is a contemporary serif intended for sustained on-screen reading: optically sized for text use, warm enough to feel literary, and technically precise enough to hold its weight at a wide range of sizes. It is the closest thing to a book face that loads well from a web font.
+## Design & Typography
 
-The interface typeface is **Manrope**, a geometric sans-serif that works at small sizes without losing clarity. It carries post metadata, navigation labels, and other elements where the type needs to function rather than to be read.
+디자인은 [Lipi](https://github.com/thelocalhoststudio/lipi) 테마를 기반으로 커스터마이징했습니다.
 
-The monospaced typeface is **Fira Code**, used for inline code and code blocks. It includes ligatures for common programming symbols, but these are not forced: if you prefer to disable them, set `font-variant-ligatures: none` on `code` elements.
+사용하는 글꼴은 다음과 같습니다.
 
-The annotation typeface is **Caveat**, a handwritten face used for the single flourish on the home page. It appears in one place, rotated two degrees, in the primary accent colour. Using it more widely would undercut the effect.
-
-## Design Language
-
-Lipi's visual and typographic character is inspired by the [Kami](https://kami.tw93.fun) design language. The guiding principles are: warm over cool, constrained over expansive, quiet over assertive.
-
-The base colour scale is a single warm neutral ramp of eleven steps, from a near-white parchment (`#F5F4ED`) to a near-black (`#141413`). There is one brand colour, a terracotta (`#E85D2A`), used sparingly: links on hover, the reading progress bar, the drop capital, the CTA on the featured post. The scale is not cold grey and it is not blue. It reads like a printed page rather than a screen.
-
-The reading measure is held at 68 characters per line. The paragraph spacing is generous. Headings are tracked tightly and balanced with `text-wrap: balance`. Images carry a hairline inset border that separates them from the parchment ground. There is a subtle paper texture applied to the entire page via a CSS noise filter at 3% opacity: present enough to soften the backlit quality of a screen, invisible enough to go unnoticed by most readers.
+- **Literata** — 본문
+- **Manrope** — 인터페이스 및 내비게이션
+- **Fira Code** — 코드
 
 ## Technology
 
-Lipi is built with **Astro**, a static site generator with an island architecture. The output is primarily static HTML with JavaScript only where the interface requires it (the theme toggle, the scroll-to-top button, the search).
+다음 기술을 사용했습니다.
 
-Styling is handled by **Tailwind CSS v4**, configured without a Tailwind config file. All theme tokens are defined as CSS custom properties and consumed through the Tailwind CSS variable bridge. There are no custom Tailwind plugins.
+- **Astro** — 정적 사이트 생성(SSG)
+  - **Lipi** — 블로그 디자인 및 기본 컴포넌트
+- **Tailwind CSS** — 스타일링
+- **Sanity** — 게시글 관리용 Headless CMS
+- **Cloudflare Pages** — 웹사이트 호스팅 및 배포
+- **GitHub** — 소스 코드 버전 관리
+- **Pagefind** — 정적 사이트 검색
+- **Cloudflare R2** — 이미지 파일 호스팅
 
-Syntax highlighting uses **Shiki**, which is bundled with Astro. It renders code to static HTML with no client-side JavaScript. The colour tokens are mapped to Lipi's theme variables so highlighting adapts to light and dark mode.
+## Publishing
 
-Search is provided by **Pagefind**, a static full-text search library that runs entirely in the browser against a pre-built index. The index is generated at build time. Search adds no external API calls and no tracking.
+Sanity Studio를 편집기로 사용합니다.
 
-Fonts are loaded through **Astro's font API**, which optimises loading, subsets the files, and generates the `@font-face` declarations automatically. Font files are bundled into the build output rather than loaded from a third-party CDN.
+게시글을 발행하면 Webhook으로 Cloudflare Pages의 새로운 빌드가 실행됩니다.
 
-## Design Decisions Worth Naming
+Astro가 콘텐츠를 Static HTML로 생성하고, 완성된 페이지를 배포합니다.
 
-**The hairline rules** between sections are generated with a CSS gradient, not a solid border. They fade at both ends. This is a small thing, but it softens what would otherwise be a mechanical cut across the page.
+상시 실행되는 웹 서버 없이 정적 사이트를 제공하는 구조입니다.
 
-**The drop capital** on the first paragraph of each post is applied with `initial-letter` and scoped to viewports wider than 768px, where the layout has enough room for it to work. On mobile, the first paragraph renders normally. No JavaScript is involved.
+## Credits
 
-**Print continuity** means that Cmd+P produces a result close to the screen layout: the parchment background is preserved, the type scale holds, and the page does not collapse into a plain-text dump. Lipi is one of few web templates where printing is considered rather than ignored.
+이 블로그는 [The Localhost Studio](https://github.com/thelocalhoststudio)에서 개발한 오픈소스 Astro 테마 Lipi를 기반으로 제작했습니다.
 
-**The reading progress bar** at the top of each post is powered by CSS scroll-driven animations, with no JavaScript fallback needed for modern browsers.
-
-## Source
-
-The Lipi is MIT licensed and the source is available at the link in the footer.
+Lipi의 원본 소스 코드는 [GitHub](https://github.com/thelocalhoststudio/lipi)에서 확인할 수 있습니다.
