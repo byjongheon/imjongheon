@@ -64,7 +64,7 @@ const coverImageUrl = hasValidCover
 
 const allPosts    = await getAllPosts();
 const relatedPosts = getRelatedPosts(post, allPosts, siteConfig.relatedPosts);
-const ogImage = `/og/posts/${getPostSlug(post.slug)}.png`;
+const ogImage = `/posts/${post.slug}/index.png`;
 const structuredData = generatePostSchema(post);
 ---
 
