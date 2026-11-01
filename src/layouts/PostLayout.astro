@@ -45,7 +45,17 @@ function formatMonthYear(date: Date) {
 }
 const { title, description, cover, published, tags } = post;
 
-const coverImageUrl = cover
+const hasValidCover =
+  cover !== null &&
+  typeof cover === "object" &&
+  "asset" in cover &&
+  cover.asset !== null &&
+  typeof cover.asset === "object" &&
+  "_ref" in cover.asset &&
+  typeof cover.asset._ref === "string" &&
+  cover.asset._ref.length > 0;
+
+const coverImageUrl = hasValidCover
   ? urlForImage(cover)
       .width(1600)
       .auto("format")
