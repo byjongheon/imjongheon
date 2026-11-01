@@ -1,12 +1,10 @@
 ---
-import { slugify } from '@/utils/text';
-
 interface Props {
   title?: string;
   subheading?: string;
-  transitionName?: string;
 }
-const { title, subheading, transitionName } = Astro.props;
+
+const { title, subheading } = Astro.props;
 ---
 <section class="flex flex-col mb-2">
   {title && (
