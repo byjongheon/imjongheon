@@ -13,7 +13,6 @@ const userConfig: UserConfig = {
   navigation: [
     { title: "Home", url: "/" },
     { title: "Blog", url: "/posts" },
-    { title: "Memo", url: "/memo" },
     { title: "About", url: "/about" },
   ],
 
