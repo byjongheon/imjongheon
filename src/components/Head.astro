@@ -1,6 +1,8 @@
 ---
+
+import "@/styles/pagefind.css";
 import { Font } from 'astro:assets';
-import { ClientRouter } from "astro:transitions";
+// import { ClientRouter } from "astro:transitions";
 import "@/styles/global.css";
 
 interface Props {
@@ -64,8 +66,7 @@ const { lang = "en", schema } = Astro.props;
     href="/pagefind/pagefind-component-ui.css"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="/src/styles/pagefind.css" />
-  
+    
   <script
     src="/pagefind/pagefind-component-ui.js"
     type="module"
@@ -76,5 +77,4 @@ const { lang = "en", schema } = Astro.props;
   <Font cssVariable="--font-lipi-mono" preload />
   <Font cssVariable="--font-lipi-hand" preload />
 
-  <ClientRouter />
 </head>
