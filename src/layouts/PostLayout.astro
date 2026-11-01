@@ -75,7 +75,6 @@ const structuredData = generatePostSchema(post);
       <!-- Title -->
       <h1 
           class="text-3xl leading-tight tracking-tight font-medium md:text-4xl mb-2 text-balance"
-          transition:name={slugify(post.title.replaceAll(".", "-"))}
       >
           {post.title}
       </h1>
